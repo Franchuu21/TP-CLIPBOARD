@@ -1,4 +1,4 @@
-import { Clipboard } from 'react-native';
+import Clipboard from 'react-native-clipboard';
 import { TextInput, Button } from 'react-native';
 
 export default function ClipboardExample() {
