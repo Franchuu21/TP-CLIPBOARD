@@ -1,26 +1,51 @@
-import Clipboard from 'react-native-clipboard';
-import { TextInput, Button } from 'react-native';
+import React, {useState} from 'react';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+  Clipboard,
+  StyleSheet,
+} from 'react-native';
 
-export default function ClipboardExample() {
-  const [text, setText] = useState('');
-  
-  const handleCopy = () => {
-    Clipboard.setString(text);
-  }
-  
-  const handlePaste = async () => {
-    const copiedText = await Clipboard.getString();
-    setText(copiedText);
-  }
+const App = () => {
+  const [copiedText, setCopiedText] = useState('');
+
+  const copyToClipboard = () => {
+    Clipboard.setString('hello world');
+  };
+
+  const fetchCopiedText = async () => {
+    const text = await Clipboard.getString();
+    setCopiedText(text);
+  };
 
   return (
-    <View>
-      <TextInput
-        value={text}
-        onChangeText={setText}
-      />
-      <Button title="Copy" onPress={handleCopy} />
-      <Button title="Paste" onPress={handlePaste} />
-    </View>
+    <SafeAreaView style={{flex: 1}}>
+      <View style={styles.container}>
+        <TouchableOpacity onPress={() => copyToClipboard()}>
+          <Text>Click here to copy to Clipboard</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => fetchCopiedText()}>
+          <Text>View copied text</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.copiedText}>{copiedText}</Text>
+      </View>
+    </SafeAreaView>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  copiedText: {
+    marginTop: 10,
+    color: 'red',
+  },
+});
+
+export default App;
